@@ -7,4 +7,4 @@ struct node_t *push_to_list(struct block *pushed_block_pointer, struct node_t *o
 void delete_list(struct node_t* top);                                                      //deletes existing list from the top in the argument
 void print_list(struct node_t* node);                                                      //prints numbers of blocks from the existing list
 
-#endif /*SUMS_H*/
+#endif /*LIST_REALIZATION_H*/
