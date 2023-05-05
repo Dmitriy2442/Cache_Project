@@ -1,13 +1,6 @@
 #ifndef LIST_IMPLEMENTATION_H
 #define LIST_IMPLEMENTATION_H
 
-struct block
-{
-    int number;
-    int IRR;
-    int recency;
-};
-
 struct node_t 
 {
     struct node_t *left;

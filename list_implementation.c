@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "block_struct.h"
 #include "list_implementation.h"
-//To do: #include block_library
 
 struct node_t *create_list(struct block *first_block_pointer)
 {

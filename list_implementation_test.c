@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "list_implementation.h"
+#include "block_struct.h"
 
 int main()
 {
