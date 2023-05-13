@@ -27,4 +27,8 @@ int main()
     printf("Numbers of the pages in the list (going from the front to the end): ");
     print_list(front);
     printf("\n");
+    node_remove(front->left);
+    printf("Numbers of the pages in the list (going from the front to the end): ");
+    print_list(front);
+    printf("\n");
 }

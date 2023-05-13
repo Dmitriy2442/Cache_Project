@@ -28,6 +28,13 @@ struct node_t *push_to_end(struct block *pushed_block_pointer, struct node_t *ol
     return new_node_end;
 }
 
+void node_remove(struct node_t* removed_node)
+{
+    removed_node->left->right = removed_node->right;
+    removed_node->right->left = removed_node->left;
+    free(removed_node);
+}
+
 void delete_list(struct node_t* front)
 {
     while (front != NULL)
