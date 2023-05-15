@@ -13,29 +13,14 @@ int main()
     struct node_t *front;
     struct node_t *end;
     struct stack *stck;
-    long long a = 0, b = 0, i = 0, page_number = 0, cache_hit = 0;
-    if ((scanf("%lld", &a)) != 1) {
-        printf("Incorrect input");
-        return 1;
-    }
-    if (a < 0) {
-        printf("Can't be negative number");
-        return 1;
-    }
-    if ((scanf("%lld", &b)) != 1) {
-        printf("Incorrect input");
-        return 2;
-    }
-    if (b < 0) {
-        printf("Can't be negative number");
-        return 2;
-    }
-    for (i = 0; i < a; ++i) {
-        if ((scanf("%lld", &page_number)) != 1) {
-            printf("Incorrect input");
-            return 3;
-        }
-        get_flag = get_block(hash, page_number);
+    long long a = 0, b = 0, i = 0, cache_hit = 0;
+    long long *input_arr = (long long *) calloc(a, sizeof(long long));
+    FILE *file;
+    file = fopen("input.txt", "r");
+    fscanf(file, "%lld", &a);
+    fscanf(file, "%lld", &b);
+    while ((fscanf(file, "%lld", input_arr + 2 + i) != EOF)) {
+        get_flag = get_block(hash, input_arr[2 + i]);
         if ((get_flag->HIR == 1) && (get_flag->cache_residency == 1)) {
             cache_hit++;
             HIR_resident_access(get_flag, stck, *front, *end);
