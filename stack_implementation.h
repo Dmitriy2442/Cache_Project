@@ -6,11 +6,17 @@
 // Realization of the first functions working with stack
 #include "block_struct.h"
 
+struct stack
+{
+    int top_number;
+    int bottom_number;
+    int remains;
+    size_t size;
+    struct block** data;
+    //char flag;
+};
 
-
-
-
-void stack_create(struct stack* stack_point);             //creates an empty stack
+void stack_create(struct stack* stack_point, size_t stack_memory);             //creates an empty stack
 
 void stack_push(struct stack* stack_point,struct block* x);     //push a new block into the stack
 
@@ -20,7 +26,7 @@ struct block* stack_get(struct stack* stack_point);       // returns the top ele
 
 void stack_print(struct stack* stack_point);              //prints the stack elements in order, if the stack is empty outputs "Empty stack"
 
-int  stack_size(struct stack* stack_point);               //returns the stack size
+int  stack_size(const struct stack* stack_point);               //returns the stack size
 
 void stack_delete(struct stack* stack_point);             //delete the stack
 

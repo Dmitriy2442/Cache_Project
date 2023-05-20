@@ -7,7 +7,7 @@
 void hash_table_create(struct hash* hash_table, size_t size_hash)
 {
     hash_table->capacity_hash = size_hash;
-    hash_table->table = (struct hash_node_t**)calloc(sizeof(hash_node_t*), hash_table->capacity_hash);
+    hash_table->table = (struct hash_node_t**)calloc(sizeof(struct hash_node_t*), hash_table->capacity_hash);
     assert(hash_table->table != NULL && "piztec");
 }
 
@@ -28,7 +28,7 @@ void hash_add (struct block* element, struct hash* hash_table)
     int key = hash_function(element->number, hash_table);
     if (hash_checking(element, hash_table) == 0)
     {
-        hash_table->table[key] = (struct hash_node_t*)calloc(1, sizeof(hash_node_t));
+        hash_table->table[key] = (struct hash_node_t*)calloc(1, sizeof(struct hash_node_t));
         hash_table->table[key]->data = element;
         hash_table->table[key]->next = NULL;
        // printf("HIR IS %d\n", element->HIR);

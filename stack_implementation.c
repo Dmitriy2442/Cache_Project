@@ -3,19 +3,6 @@
 #include "stack_implementation.h"
 #include <assert.h>
 
-struct stack
-{
-    int top_number;
-    int bottom_number;
-    int remains;
-    size_t size;
-    struct block** data;
-    //char flag;
-
-};
-
-
-
 void stack_create(struct stack* stack_point, size_t stack_memory)
 {
     stack_point->top_number = -1;

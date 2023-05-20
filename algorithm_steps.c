@@ -5,14 +5,14 @@
 #include "stack_implementation.h"
 #include "algorithm_steps.h"
 
-void LIR_access(struct block *accessed_block, struct Stack *S)
+void LIR_access(struct block *accessed_block, struct stack *S)
 {
     stack_push(S, accessed_block);
     if (S->data[S->bottom_number + 1]->HIR == 0)
         stack_pruning(S);
 }
 
-void HIR_resident_access(struct block *accessed_block, struct Stack *S, struct node_t **front, struct node_t **end)
+void HIR_resident_access(struct block *accessed_block, struct stack *S, struct node_t **front, struct node_t **end)
 {
     stack_push(S, accessed_block);
     if (accessed_block->stack_residency > 1)
@@ -27,7 +27,7 @@ void HIR_resident_access(struct block *accessed_block, struct Stack *S, struct n
         *end = push_to_end(accessed_block, *end);
 }
 
-void HIR_non_resident_access(struct block *accessed_block, struct Stack *S, struct node_t **front, struct node_t **end)
+void HIR_non_resident_access(struct block *accessed_block, struct stack *S, struct node_t **front, struct node_t **end)
 {
     (*front)->block_pointer->cache_residency = 0;
     (*front)->block_pointer = accessed_block;

@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "algorithm_steps"
 #include "stack_implementation.h"
+#include "algorithm_steps.h"
 #include "list_implementation.h"
 #include "block_struct.h"
-#include "hash_list.h"
+#include "hash_list_implementation.h"
 
 int main()
 {
@@ -38,10 +38,10 @@ int main()
         get_flag = get_block(hash, page_number);
         if ((get_flag->HIR == 1) && (get_flag->cache_residency == 1)) {
             cache_hit++;
-            HIR_resident_access(get_flag, stck, *front, *end);
+            HIR_resident_access(get_flag, stck, **front, **end);
         } else if ((get_flag->HIR == 1)
                    && (get_flag->cache_residency == 0)) {
-            HIR_non_resident_access(get_flag, stck, *front, *end);
+            HIR_non_resident_access(get_flag, stck, **front, **end);
         } else if ((get_flag->HIR) == 0) {
             LIR_access(get_flag, stck);
         }
