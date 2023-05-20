@@ -1,6 +1,5 @@
-#include "hash_list_implementation.c"
+#include "hash_list_implementation.h"
 #include "hash_implementation.h"
-
 #include <assert.h>
 
 

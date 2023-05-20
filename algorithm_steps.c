@@ -24,7 +24,10 @@ void HIR_resident_access(struct block *accessed_block, struct stack *S, struct n
         stack_pruning(S);
     }
     else
+    {
+        node_remove(accessed_block->block_list_node);
         *end = push_to_end(accessed_block, *end);
+    }
 }
 
 void HIR_non_resident_access(struct block *accessed_block, struct stack *S, struct node_t **front, struct node_t **end)

@@ -16,6 +16,7 @@ struct node_t *push_to_front(struct block *pushed_block_pointer, struct node_t *
     new_node_front->block_pointer = pushed_block_pointer;
     new_node_front->left = old_node_front;
     old_node_front->right = new_node_front;
+    new_node_front->block_pointer->block_list_node = new_node_front;
     return new_node_front;
 }
 
@@ -25,13 +26,17 @@ struct node_t *push_to_end(struct block *pushed_block_pointer, struct node_t *ol
     new_node_end->block_pointer = pushed_block_pointer;
     new_node_end->right = old_node_end;
     old_node_end->left = new_node_end;
+    new_node_end->block_pointer->block_list_node = new_node_end;
     return new_node_end;
 }
 
 void node_remove(struct node_t* removed_node)
 {
-    removed_node->left->right = removed_node->right;
-    removed_node->right->left = removed_node->left;
+    if (removed_node->left != NULL)
+        removed_node->left->right = removed_node->right;
+    if (removed_node->right != NULL)
+        removed_node->right->left = removed_node->left;
+    free(removed_node->block_pointer->block_list_node);
     free(removed_node);
 }
 
