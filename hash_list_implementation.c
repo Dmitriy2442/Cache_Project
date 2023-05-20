@@ -3,23 +3,6 @@
 #include "hash_list_implementation.h"
 #include "block_struct.h"
 
-// Stack stack                  ++++++++
-//delete hash++++++++
-//struct hash++++++++
-//somthing else
-//checks
-//test for a lot of data
-// .h
-// struct in .c
-// abort after callocs
-// assert to functions where we use somethinf what can have NULL
-//const
-//comment above fun and comment in shapka of module   ++++++++
-// fprintf(stderr, "ERROR");                           ++++++++
-// prosto enter i probeli                                 ++++++++
-
-
-
 
 
 struct hash_node_t *add_data(struct block* a, struct hash_node_t *old_node)

@@ -21,7 +21,7 @@ void hash_add (struct block* element, struct hash* hash_table);
 
 void hash_block_delete (struct block* element, struct hash* hash_table);
 
-struct block* get_block(int number, struct hash* hash_table);
+struct block* hash_get_block(int number, struct hash* hash_table);
 
 void print_hash_table (struct hash* hash_table);
 

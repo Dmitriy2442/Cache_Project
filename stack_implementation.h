@@ -4,6 +4,7 @@
 
 
 // Realization of the first functions working with stack
+
 #include "block_struct.h"
 
 struct stack

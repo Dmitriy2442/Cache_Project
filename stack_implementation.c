@@ -41,6 +41,7 @@ struct block* stack_pop(struct stack* stack_point)
         //stack_point->flag = 0;
     }
     assert(stack_point->remains <= stack_point->size && "ERROR: attempt to delete in an empty stack");
+    stack_point->data[stack_point->top_number + 1]->stack_residency = 0;
     return stack_point->data[stack_point->top_number + 1];
 }
 
