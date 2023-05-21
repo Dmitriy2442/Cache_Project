@@ -15,15 +15,10 @@ FILE *testing_thread(int m, long long n)
 {
     FILE *file;
     file = fopen("input.txt", "w");
-    long long *a = (long long *) calloc(m, sizeof(long long));
     srand(time(NULL));
-    for (int i = 0; i < m; ++i) {
-        a[i] = rand() % n;
+    for (int i = 0; i < m; i++) {
+        fprintf(file, "%lld ", rand() % n);
     }
-    for (int i = 0; i < m; ++i) {
-        fprintf(file, "%lld ", a[i]);
-    }
-    free(a);
     return file;
 }
 
