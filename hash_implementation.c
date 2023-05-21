@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack_implementation.h"
+#include "hash_implementation.h"
+#include "hash_list_implementation.h"
 #include <assert.h>
 
 
@@ -91,7 +93,7 @@ struct block* hash_get_block(int number, struct hash* hash_table)
         //printf("\n111\n");
         struct hash_node_t* new_node = (struct hash_node_t*)calloc(1, sizeof(struct hash_node_t));
         new_node->data = new_block;
-        new_node->next = NULL;
+        free(new_node->next);
         //printf("\n111\n");
 
         hash_table->table[key] = new_node;
@@ -100,11 +102,11 @@ struct block* hash_get_block(int number, struct hash* hash_table)
         return new_node->data;
 
     }
-    while (top->next != NULL)
+    while (top != NULL)
     {
-        if (top->next->data->number == number)
+        if (top->data->number == number)
         {
-            return top->next->data;
+            return top->data;
         }
         top = top->next;
     }
@@ -117,7 +119,7 @@ struct block* hash_get_block(int number, struct hash* hash_table)
     struct hash_node_t* new_node = (struct hash_node_t*)calloc(1, sizeof(struct hash_node_t));
     top->next = new_node;
     new_node->data = new_block;
-    new_node->next = NULL;
+    free(new_node->next);
 
 
     return new_block;

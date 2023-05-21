@@ -36,7 +36,7 @@ void node_remove(struct node_t* removed_node)
         removed_node->left->right = removed_node->right;
     if (removed_node->right != NULL)
         removed_node->right->left = removed_node->left;
-    free(removed_node->block_pointer->block_list_node);
+//    free(removed_node->block_pointer->block_list_node);
     free(removed_node);
 }
 
