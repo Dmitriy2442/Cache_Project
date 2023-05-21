@@ -58,8 +58,7 @@ void print_list(struct node_t* front)
         printf("%d ", marker->block_pointer->number);
         marker = marker->left;
     }
-
-    free(marker);
+    printf("\n");
 }
 
 int list_size(struct node_t* front)

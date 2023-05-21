@@ -99,7 +99,7 @@ void stack_pruning (struct stack* stack_point)
         stack_point->remains++;
 //        printf("is %d\n", stack_point->remains);
         assert(stack_point->remains < stack_point->size &&
-        "ERROR: attempt to delete in an empty stack, maybe because there was no LIR in the glass");
+        "ERROR: attempt to delete in an empty stack, maybe because there was no LIR in the glass"); 
         i++;
         i = i%stack_point->size;
 

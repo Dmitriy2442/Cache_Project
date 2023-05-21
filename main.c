@@ -14,7 +14,8 @@ int main()
     struct node_t **front;
     struct node_t **end;
     struct stack *S;
-    long long a = 0, b = 0, page_number = 0, cache_hit = 0;
+    long long cache_size = 0, HIR_section_size = 0, page_number = 0, cache_hit = 0, page_amount = 0;
+    struct block *first_pseudo_block = calloc(1, sizeof(struct block));
 
     front = calloc(1, sizeof(struct node_t *));
     end = calloc(1, sizeof(struct node_t *));
@@ -22,20 +23,30 @@ int main()
     hash = calloc(1, sizeof(struct hash));
 
     printf("Print cache size: ");
-    if ((scanf("%lld", &a)) != 1) {
+    if ((scanf("%lld", &cache_size)) != 1) {
         printf("Incorrect input \n");
         return 1;
     }
-    if (a < 0) {
+    if (cache_size < 0) {
         printf("Can't be negative number \n");
         return 1;
     }
     printf("Print HIR cache section size: ");
-    if ((scanf("%lld", &b)) != 1) {
+    if ((scanf("%lld", &HIR_section_size)) != 1) {
         printf("Incorrect input \n");
         return 2;
     }
-    if (b < 0) {
+    if (HIR_section_size < 0) {
+        printf("Can't be negative number \n");
+        return 2;
+    }
+
+    printf("Print amount of pages: ");
+    if ((scanf("%lld", &page_amount)) != 1) {
+        printf("Incorrect input \n");
+        return 2;
+    }
+    if (page_amount < 0) {
         printf("Can't be negative number \n");
         return 2;
     }
@@ -47,32 +58,42 @@ int main()
     hash_table_create(hash, 100);
     accessed_block = hash_get_block(page_number, hash);
 
-    *front = create_list(accessed_block);
-    *end = *front;
-
     stack_create(S, 100);
     stack_push(S, accessed_block);
 
-    accessed_block->HIR = 1;
+    accessed_block->HIR = 0;
     accessed_block->cache_residency = 1;
 
-    for (int j = 1; j < b; j++)
+    for (int j = 1; j < cache_size - HIR_section_size; j++)
     {
         if ((scanf("%lld", &page_number)) != 1) {
             printf("Incorrect input \n");
             return 3;
         }
         accessed_block = hash_get_block(page_number, hash);
-        *end = push_to_end(accessed_block, *end);
         stack_push(S, accessed_block);
         if (accessed_block->cache_residency == 1)
             cache_hit++;
-        accessed_block->HIR = 1;
+        accessed_block->HIR = 0;
         accessed_block->cache_residency = 1;
     }
 
+    first_pseudo_block->number = (-1)*HIR_section_size;
+    *front = create_list(first_pseudo_block);
+    *end = *front;
 
-    for (int i = b; i < a; ++i) {
+//    print_list(*front);
+
+    for (int i = 1; i < HIR_section_size; i++)
+    {
+        struct block *pseudo_block = calloc(1, sizeof(struct block));
+        pseudo_block->number = (-1)*i;
+        *front = push_to_front(pseudo_block, *front);
+    }
+
+//    print_list(*front);
+
+    for (int i = cache_size-HIR_section_size; i < page_amount; i++) {
         if ((scanf("%lld", &page_number)) != 1) {
             printf("Incorrect input \n");
             return 3;
@@ -88,6 +109,7 @@ int main()
             cache_hit++;
             LIR_access(accessed_block, S);
         }
+//        print_list(*front);
     }
     printf("%lld\n", cache_hit);
     return 0;

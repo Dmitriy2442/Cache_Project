@@ -20,6 +20,7 @@ void HIR_resident_access(struct block *accessed_block, struct stack *S, struct n
         accessed_block->HIR = 0;
         node_remove(accessed_block->block_list_node);
         *end = push_to_end(S->data[S->bottom_number + 1], *end);
+        (*end)->block_pointer->cache_residency = 1;
         S->data[S->bottom_number]->HIR = 1;
         stack_pruning(S);
     }
@@ -34,13 +35,23 @@ void HIR_non_resident_access(struct block *accessed_block, struct stack *S, stru
 {
     (*front)->block_pointer->cache_residency = 0;
     (*front)->block_pointer = accessed_block;
+    accessed_block->cache_residency = 1;
     stack_push(S, accessed_block);
     if (accessed_block->stack_residency > 1)
     {
         accessed_block->HIR = 0;
         *end = push_to_end(S->data[S->bottom_number + 1], *end);
+        S->data[S->bottom_number + 1]->cache_residency = 1;
+        *front = (*front)->left;
+        (*front)->right->block_pointer->cache_residency = 0;
+        node_remove((*front)->right);
         stack_pruning(S);
     }
     else
+    {
         *end = push_to_end(accessed_block, *end);
+        accessed_block->cache_residency = 1;
+        *front = (*front)->left;
+        node_remove((*front)->right);
+    }
 }
