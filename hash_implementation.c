@@ -126,7 +126,7 @@ struct block* hash_get_block(int number, struct hash* hash_table)
 
 }
 
-void print_hash_table (struct hash* hash_table)
+void print_hash_table (const struct hash* hash_table)
 {
     for (int i = 0; i < hash_table->capacity_hash; i++)
     {
