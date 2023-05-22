@@ -1,36 +1,83 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "algorithm_steps.h"
 #include "stack_implementation.h"
+#include "algorithm_steps.h"
 #include "list_implementation.h"
 #include "block_struct.h"
 #include "hash_list_implementation.h"
+#include "hash_implementation.h"
 
 int main()
 {
-    struct block *get_flag;
-    struct node_t *hash;
-    struct node_t *front;
-    struct node_t *end;
-    struct stack *stck;
-    long long a = 0, b = 0, i = 0, cache_hit = 0;
-    long long *input_arr = (long long *) calloc(a, sizeof(long long));
+    struct block *accessed_block;
+    struct hash *hash;
+    struct node_t **front;
+    struct node_t **end;
+    struct stack *S;
+    long long cache_size = 0, HIR_section_size = 0, page_number = 0, cache_hit = 0, page_amount = 0;
+    struct block *first_pseudo_block = calloc(1, sizeof(struct block));
     FILE *file;
     file = fopen("input.txt", "r");
-    fscanf(file, "%lld", &a);
-    fscanf(file, "%lld", &b);
-    while ((fscanf(file, "%lld", input_arr + 2 + i) != EOF)) {
-        get_flag = get_block(hash, input_arr[2 + i]);
-        if ((get_flag->HIR == 1) && (get_flag->cache_residency == 1)) {
+
+    front = calloc(1, sizeof(struct node_t *));
+    end = calloc(1, sizeof(struct node_t *));
+    S = calloc(1, sizeof(struct stack));
+    hash = calloc(1, sizeof(struct hash));
+
+    fscanf(file, "%lld", &cache_size);
+    HIR_section_size = cache_size/100;
+    if (HIR_section_size == 0)
+        HIR_section_size = 1;
+    fscanf(file, "%lld", &page_amount);
+
+    fscanf(file, "%lld", &page_number);
+    hash_table_create(hash, 100);                                                 //creation of hash table
+    accessed_block = hash_get_block(page_number, hash);
+
+    stack_create(S, page_amount*2);                                               //creation of stack
+    stack_push(S, accessed_block);
+
+    accessed_block->HIR = 0;                                                      //first block management
+    accessed_block->cache_residency = 1;
+
+    for (int j = 1; j < cache_size - HIR_section_size; j++)                       //filling cache with LIR blocks
+    {
+        fscanf(file, "%lld", &page_number);
+
+        accessed_block = hash_get_block(page_number, hash);
+        stack_push(S, accessed_block);
+        if (accessed_block->cache_residency == 1)
             cache_hit++;
-            HIR_resident_access(get_flag, stck, **front, **end);
-        } else if ((get_flag->HIR == 1)
-                   && (get_flag->cache_residency == 0)) {
-            HIR_non_resident_access(get_flag, stck, **front, **end);
-        } else if ((get_flag->HIR) == 0) {
-            LIR_access(get_flag, stck);
+        accessed_block->HIR = 0;
+        accessed_block->cache_residency = 1;
+    }
+
+    first_pseudo_block->number = (-1)*HIR_section_size;                           //creating pseudo-empty list
+    *front = create_list(first_pseudo_block);
+    *end = *front;
+
+    for (int i = 1; i < HIR_section_size; i++)
+    {
+        struct block *pseudo_block = calloc(1, sizeof(struct block));
+        pseudo_block->number = (-1)*i;
+        *front = push_to_front(pseudo_block, *front);
+    }
+
+    for (int i = cache_size-HIR_section_size; i < page_amount; i++) {             //main cycle
+        fscanf(file, "%lld", &page_number);
+
+        accessed_block = hash_get_block(page_number, hash);
+        if ((accessed_block->HIR == 1) && (accessed_block->cache_residency == 1)) {
+            cache_hit++;
+            HIR_resident_access(accessed_block, S, front, end);
+        } else if ((accessed_block->HIR == 1)
+                   && (accessed_block->cache_residency == 0)) {
+            HIR_non_resident_access(accessed_block, S, front, end);
+        } else if ((accessed_block->HIR) == 0) {
+            cache_hit++;
+            LIR_access(accessed_block, S);
         }
     }
-    printf("%lld\n", cache_hit);
+    printf("Cache hits amount: %lld\n", cache_hit);
     return 0;
 }

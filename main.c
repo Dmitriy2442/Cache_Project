@@ -31,15 +31,9 @@ int main()
         printf("Can't be negative number \n");
         return 1;
     }
-    printf("Print HIR cache section size: ");
-    if ((scanf("%lld", &HIR_section_size)) != 1) {
-        printf("Incorrect input \n");
-        return 2;
-    }
-    if (HIR_section_size < 0) {
-        printf("Can't be negative number \n");
-        return 2;
-    }
+    HIR_section_size = cache_size/100;
+    if (HIR_section_size == 0)
+        HIR_section_size = 1;
 
     printf("Print amount of pages: ");
     if ((scanf("%lld", &page_amount)) != 1) {
@@ -58,7 +52,7 @@ int main()
     hash_table_create(hash, 100);                                                 //creation of hash table
     accessed_block = hash_get_block(page_number, hash);
 
-    stack_create(S, 100);                                                         //creation of stack
+    stack_create(S, page_amount*2);                                               //creation of stack
     stack_push(S, accessed_block);
 
     accessed_block->HIR = 0;                                                      //first block management

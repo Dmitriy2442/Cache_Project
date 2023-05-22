@@ -20,7 +20,13 @@ void HIR_resident_access(struct block *accessed_block, struct stack *S, struct n
     if (accessed_block->stack_residency > 1)
     {
         accessed_block->HIR = 0;
-        node_remove(accessed_block->block_list_node);
+        if ((accessed_block->block_list_node->left != NULL)||(accessed_block->block_list_node->right != NULL))
+            node_remove(accessed_block->block_list_node);
+        else
+        {
+            *front = 0;
+            *end = *front;
+        }
         if (*end != NULL)
             *end = push_to_end(S->data[S->bottom_number], *end);
         else
@@ -34,7 +40,10 @@ void HIR_resident_access(struct block *accessed_block, struct stack *S, struct n
     }
     else
     {
-        node_remove(accessed_block->block_list_node);
+        if ((accessed_block->block_list_node->left != NULL)||(accessed_block->block_list_node->right != NULL))
+            node_remove(accessed_block->block_list_node);
+        else
+            free(accessed_block->block_list_node);
         if (*end != NULL)
             *end = push_to_end(S->data[S->bottom_number + 1], *end);
         else
