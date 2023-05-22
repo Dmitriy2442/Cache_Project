@@ -55,16 +55,16 @@ int main()
         printf("Incorrect input \n");
         return 3;
     }
-    hash_table_create(hash, 100);
+    hash_table_create(hash, 100);                                                 //creation of hash table
     accessed_block = hash_get_block(page_number, hash);
 
-    stack_create(S, 100);
+    stack_create(S, 100);                                                         //creation of stack
     stack_push(S, accessed_block);
 
-    accessed_block->HIR = 0;
+    accessed_block->HIR = 0;                                                      //first block management
     accessed_block->cache_residency = 1;
 
-    for (int j = 1; j < cache_size - HIR_section_size; j++)
+    for (int j = 1; j < cache_size - HIR_section_size; j++)                       //filling cache with LIR blocks
     {
         if ((scanf("%lld", &page_number)) != 1) {
             printf("Incorrect input \n");
@@ -78,11 +78,9 @@ int main()
         accessed_block->cache_residency = 1;
     }
 
-    first_pseudo_block->number = (-1)*HIR_section_size;
+    first_pseudo_block->number = (-1)*HIR_section_size;                           //creating pseudo-empty list
     *front = create_list(first_pseudo_block);
     *end = *front;
-
-//    print_list(*front);
 
     for (int i = 1; i < HIR_section_size; i++)
     {
@@ -91,9 +89,7 @@ int main()
         *front = push_to_front(pseudo_block, *front);
     }
 
-//    print_list(*front);
-
-    for (int i = cache_size-HIR_section_size; i < page_amount; i++) {
+    for (int i = cache_size-HIR_section_size; i < page_amount; i++) {             //main cycle
         if ((scanf("%lld", &page_number)) != 1) {
             printf("Incorrect input \n");
             return 3;
@@ -109,8 +105,7 @@ int main()
             cache_hit++;
             LIR_access(accessed_block, S);
         }
-//        print_list(*front);
     }
-    printf("%lld\n", cache_hit);
+    printf("Cache hits amount: %lld\n", cache_hit);
     return 0;
 }

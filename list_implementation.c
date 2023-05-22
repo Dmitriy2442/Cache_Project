@@ -7,6 +7,7 @@ struct node_t *create_list(struct block *first_block_pointer)
 {
     struct node_t* new_node = calloc(1, sizeof(struct node_t));
     new_node->block_pointer = first_block_pointer;
+    first_block_pointer->block_list_node = new_node;
     return new_node;
 }
 
@@ -30,13 +31,12 @@ struct node_t *push_to_end(struct block *pushed_block_pointer, struct node_t *ol
     return new_node_end;
 }
 
-void node_remove(struct node_t* removed_node)
+void node_remove(struct node_t *removed_node)
 {
     if (removed_node->left != NULL)
         removed_node->left->right = removed_node->right;
     if (removed_node->right != NULL)
         removed_node->right->left = removed_node->left;
-//    free(removed_node->block_pointer->block_list_node);
     free(removed_node);
 }
 
