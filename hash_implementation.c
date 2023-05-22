@@ -11,7 +11,7 @@ void hash_table_create(struct hash* hash_table, size_t size_hash)
 {
     hash_table->capacity_hash = size_hash;
     hash_table->table = (struct hash_node_t**)calloc(sizeof(struct hash_node_t*), hash_table->capacity_hash);
-    assert(hash_table->table != NULL && "piztec");
+    assert(hash_table->table != NULL && "Sorry, just a calloc returned a null pointer");
 }
 
 int hash_function(int number, struct hash* hash_table)
